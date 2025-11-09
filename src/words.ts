@@ -17,7 +17,7 @@ export const words: Word[] = [
   { word: 'cœur', difficulty: 'easy' },
   { word: 'étoile', difficulty: 'easy' },
   { word: 'fleur', difficulty: 'easy' },
-  
+
   // Medium words (10)
   { word: 'avion', difficulty: 'medium' },
   { word: 'téléphone', difficulty: 'medium' },
@@ -29,7 +29,7 @@ export const words: Word[] = [
   { word: 'parapluie', difficulty: 'medium' },
   { word: 'horloge', difficulty: 'medium' },
   { word: 'crayon', difficulty: 'medium' },
-  
+
   // Hard words (10)
   { word: 'architecture', difficulty: 'hard' },
   { word: 'télévision', difficulty: 'hard' },
@@ -52,4 +52,3 @@ export function getRandomWord(difficulty: Difficulty): Word {
   const randomIndex = Math.floor(Math.random() * filteredWords.length);
   return filteredWords[randomIndex];
 }
-

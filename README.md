@@ -11,11 +11,13 @@ Ce projet utilise Podman pour exécuter Node.js sans installation locale.
 Lancez un conteneur interactif avec bash :
 
 **Sur Linux/WSL :**
+
 ```bash
 podman run --rm -it -p 8080:8080 -v "$(pwd):/app" -w /app node:20 bash
 ```
 
 **Sur Windows (PowerShell) :**
+
 ```bash
 podman run --rm -it -p 8080:8080 -v "${PWD}:/app" -w /app node:20 bash
 ```
@@ -58,7 +60,7 @@ podman run --rm -it -p 8080:8080 -v "$(pwd):/app" -w /app node:20 npm run serve
 
 ## 📁 Structure du projet
 
-```
+```text
 .
 ├── src/
 │   ├── words.ts      # Liste des mots par niveau de difficulté
@@ -96,7 +98,7 @@ npm run dev
 ```
 
 Ouvrez ensuite `http://localhost:8080` dans votre navigateur et testez :
+
 - Sélectionner un niveau de difficulté
 - Cliquer sur "Générer un mot"
 - Vérifier qu'un mot s'affiche correctement
-

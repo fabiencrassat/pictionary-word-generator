@@ -73,4 +73,3 @@ class PictionaryGenerator {
 document.addEventListener('DOMContentLoaded', () => {
   new PictionaryGenerator();
 });
-
