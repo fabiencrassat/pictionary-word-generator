@@ -1,16 +1,15 @@
 // Service Worker for PWA functionality
 const CACHE_NAME = 'pictionary-generator-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/app.js',
-  '/words.js',
-  '/assets/favicon.svg',
-  '/assets/icon-192.svg',
-  '/assets/icon-512.svg',
-  '/assets/apple-touch-icon.png',
-  '/site.webmanifest'
+  'index.html',
+  'style.css',
+  'app.js',
+  'words.js',
+  'assets/favicon.svg',
+  'assets/icon-192.svg',
+  'assets/icon-512.svg',
+  'assets/apple-touch-icon.png',
+  'site.webmanifest'
 ];
 
 // Install event - cache resources
@@ -74,7 +73,7 @@ self.addEventListener('fetch', (event) => {
       .catch(() => {
         // If both cache and network fail, return offline page if available
         if (event.request.destination === 'document') {
-          return caches.match('/index.html');
+          return caches.match('index.html');
         }
       })
   );
