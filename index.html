@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur de Mots Pictionary</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🎨 Générateur de Mots Pictionary</h1>
+      <p class="subtitle">Choisissez un niveau et générez un mot à dessiner !</p>
+    </header>
+
+    <main>
+      <section class="difficulty-section">
+        <h2>Niveau de difficulté</h2>
+        <div class="difficulty-buttons">
+          <button id="easy-btn" class="difficulty-btn active" data-difficulty="easy">
+            <span class="difficulty-label">Facile</span>
+            <span class="difficulty-emoji">⭐</span>
+          </button>
+          <button id="medium-btn" class="difficulty-btn" data-difficulty="medium">
+            <span class="difficulty-label">Moyen</span>
+            <span class="difficulty-emoji">⭐⭐</span>
+          </button>
+          <button id="hard-btn" class="difficulty-btn" data-difficulty="hard">
+            <span class="difficulty-label">Difficile</span>
+            <span class="difficulty-emoji">⭐⭐⭐</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="generator-section">
+        <button id="generate-btn" class="generate-btn">
+          <span>Générer un mot</span>
+        </button>
+        <div id="word-display" class="word-display"></div>
+      </section>
+    </main>
+
+    <footer>
+      <p>Amusez-vous bien ! 🎉</p>
+    </footer>
+  </div>
+
+  <script type="module" src="dist/app.js"></script>
+</body>
+</html>
+
