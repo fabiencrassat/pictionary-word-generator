@@ -1,6 +1,6 @@
 // Service Worker for PWA functionality
 const APP_PREFIX = 'pictionary-word-generator_'; // Identifier for this app (this needs to be consistent across every cache update)
-const VERSION = 'v2';                            // Version of the off-line cache (change this value everytime you want to update the cache)
+const VERSION = 'v3';                            // Version of the off-line cache (change this value everytime you want to update the cache)
 const CACHE_NAME = APP_PREFIX + VERSION;
 const URLS_TO_CACHE = [
   '/pictionary-word-generator/app.js',
@@ -38,7 +38,7 @@ self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open(CACHE_NAME).then(function (cache) {
       console.log('installing cache : ' + CACHE_NAME)
-      return cache.addAll(URLS)
+      return cache.addAll(URLS_TO_CACHE)
     })
   )
 })
