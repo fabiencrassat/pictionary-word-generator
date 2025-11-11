@@ -26,6 +26,7 @@
   <meta property="og:description" content="Choisissez un niveau et générez un mot à dessiner !">
   <meta property="og:image" content="assets/og-image.svg">
 
+  <link rel="canonical" href="https://fabiencrassat.github.io/pictionary-word-generator/" />
   <link rel="manifest" href="site.webmanifest" />
   <link rel="stylesheet" href="style.css">
 </head>
@@ -68,6 +69,12 @@
     </footer>
   </div>
 
+  <script>
+    // register ServiceWorker, remember to use absolute path!
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.register('/pictionary-word-generator/sw.js', {scope: '/pictionary-word-generator/'})
+    }
+  </script>
   <script type="module" src="dist/app.js"></script>
 </body>
 </html>

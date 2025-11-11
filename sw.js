@@ -1,81 +1,66 @@
 // Service Worker for PWA functionality
-const CACHE_NAME = 'pictionary-generator-v1';
-const urlsToCache = [
-  'index.html',
-  'style.css',
-  'app.js',
-  'words.js',
-  'assets/favicon.svg',
-  'assets/icon-192.svg',
-  'assets/icon-512.svg',
-  'assets/apple-touch-icon.png',
-  'site.webmanifest'
+const APP_PREFIX = 'pictionary-word-generator_'; // Identifier for this app (this needs to be consistent across every cache update)
+const VERSION = 'v2';                            // Version of the off-line cache (change this value everytime you want to update the cache)
+const CACHE_NAME = APP_PREFIX + VERSION;
+const URLS_TO_CACHE = [
+  '/pictionary-word-generator/app.js',
+  '/pictionary-word-generator/index.html',
+  '/pictionary-word-generator/site.webmanifest',
+  '/pictionary-word-generator/style.css',
+  '/pictionary-word-generator/words.js',
+  '/pictionary-word-generator/assets/apple-touch-icon.png',
+  '/pictionary-word-generator/assets/favicon.svg',
+  '/pictionary-word-generator/assets/icon-192.svg',
+  '/pictionary-word-generator/assets/icon-512.svg',
 ];
 
-// Install event - cache resources
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
-      .catch((error) => {
-        console.error('Cache install failed:', error);
-      })
-  );
-  // Force the waiting service worker to become the active service worker
-  self.skipWaiting();
-});
+// Respond with cached resources
+self.addEventListener('fetch', function (e) {
+  console.log('fetch request : ' + e.request.url)
+  e.respondWith(
+    caches.match(e.request).then(function (request) {
+      if (request) { // if cache is available, respond with cache
+        console.log('responding with cache : ' + e.request.url)
+        return request
+      } else {       // if there are no cache, try fetching request
+        console.log('file is not cached, fetching : ' + e.request.url)
+        return fetch(e.request)
+      }
 
-// Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
+      // You can omit if/else for console.log & put one line below like this too.
+      // return request || fetch(e.request)
     })
-  );
-  // Take control of all pages immediately
-  return self.clients.claim();
-});
+  )
+})
 
-// Fetch event - serve from cache, fallback to network
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        // Clone the request because it's a stream
-        const fetchRequest = event.request.clone();
-        return fetch(fetchRequest).then((response) => {
-          // Check if valid response
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-          // Clone the response
-          const responseToCache = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-          return response;
-        });
-      })
-      .catch(() => {
-        // If both cache and network fail, return offline page if available
-        if (event.request.destination === 'document') {
-          return caches.match('index.html');
-        }
-      })
-  );
-});
+// Cache resources
+self.addEventListener('install', function (e) {
+  e.waitUntil(
+    caches.open(CACHE_NAME).then(function (cache) {
+      console.log('installing cache : ' + CACHE_NAME)
+      return cache.addAll(URLS)
+    })
+  )
+})
 
+// Delete outdated caches
+self.addEventListener('activate', function (e) {
+  e.waitUntil(
+    caches.keys().then(function (keyList) {
+      // `keyList` contains all cache names under your username.github.io
+      // filter out ones that has this app prefix to create white list
+      var cacheWhitelist = keyList.filter(function (key) {
+        return key.indexOf(APP_PREFIX)
+      })
+      // add current cache name to white list
+      cacheWhitelist.push(CACHE_NAME)
+
+      return Promise.all(keyList.map(function (key, i) {
+        if (cacheWhitelist.indexOf(key) === -1) {
+          console.log('deleting cache : ' + keyList[i] )
+          return caches.delete(keyList[i])
+        }
+      }))
+    })
+  )
+})
